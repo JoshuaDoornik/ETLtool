@@ -41,65 +41,72 @@ namespace ConsoleApp1
 
             foreach (var item in toWriteFormat.Tables[toWriteFormat.Tables[0].ToString()].Columns)
             {
-                Console.WriteLine(item.ToString());
+                
                 format.Add(item.ToString());
             }
 
             int i = 0;
             foreach (DataRow item in toWrite.Tables[toWrite.Tables[0].ToString()].Rows)
             {
-                foreach (var col in format)
+                foreach (var x in item.ItemArray)
                 {
 
-                    if (col.Equals("klant_id"))
-                    {
-                        tup.addTuple(col, item["klant_id"].ToString());
-                    }
-                    if (col.Equals("voorletter"))
-                    {
-                        tup.addTuple(col, item["voorl"].ToString());
-                    }
-                     if (col.Equals("tussenvoegsel")) {
-                        tup.addTuple(col, item["tv"].ToString());
-                    }
-                     if (col.Equals("achternaam"))
-                    {
-                        tup.addTuple(col, item["anaam"].ToString());
-                    }
-                     if (col.Equals("b_naam"))
-                    {
-                        tup.addTuple(col, null);
-                    }
-                     if (col.Equals("straat"))
-                    {
-                        tup.addTuple(col, item["str"].ToString());
-                    }
-                     if (col.Equals("huisnummer"))
-                    {
-                        tup.addTuple(col, item["hnr"].ToString());
-                    }
-                     if (col.Equals("achtervoegsel"))
-                    {
-                        tup.addTuple(col, item["av"].ToString());
-                    }
-                     if (col.Equals("postcode"))
-                    {
-                        tup.addTuple(col, item["pc"].ToString());
-                    }
-                     if (col.Equals("geslacht"))
-                    {
-                        tup.addTuple(col, item["gesl"].ToString());
-                    }
-                     if (col.Equals("geboortedatum"))
-                    {
-                        tup.addTuple(col, item["gebdt"].ToString());
-                    }
-                        
-                }
-                MsController.writeWithTupleWrapper(tup);
-                tup = new TupleWrapper();
-            }
+                    foreach (var col in format)
+                        {
 
+
+                        if (col.Equals("klant_id"))
+                        {
+                            tup.addTuple(col, item["klant_id"].ToString());
+                        }
+                        if (col.Equals("voorletter"))
+                        {
+                            tup.addTuple(col, item["voorl"].ToString());
+                        }
+                        if (col.Equals("tussenvoegsel"))
+                        {
+                            tup.addTuple(col, item["tv"].ToString());
+                        }
+                        if (col.Equals("achternaam"))
+                        {
+                            tup.addTuple(col, item["anaam"].ToString());
+                        }
+                        if (col.Equals("b_naam"))
+                        {
+                            tup.addTuple(col, null);
+                        }
+                        if (col.Equals("straat"))
+                        {
+                            tup.addTuple(col, item["str"].ToString());
+                        }
+                        if (col.Equals("huis_nr"))
+                        {
+                            tup.addTuple(col, item["hnr"].ToString());
+                        }
+                        if (col.Equals("achtervoegsel"))
+                        {
+                            tup.addTuple(col, item["av"].ToString());
+                        }
+                        if (col.Equals("postcode"))
+                        {
+                            tup.addTuple(col, item["pc"].ToString());
+                        }
+                        if (col.Equals("geslacht"))
+                        {
+                            tup.addTuple(col, item["gesl"].ToString());
+                        }
+                        if (col.Equals("geboortedatum"))
+                        {
+                            tup.addTuple(col, item["gebdt"].ToString());
+                        }
+
+                    }
+                    MsController.writeWithTupleWrapper(tup);
+                    tup = new TupleWrapper();
+
+                }
+              
+            }
             Console.WriteLine(tuples.Count);
         }
     }

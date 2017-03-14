@@ -3,3 +3,8 @@ c:\users\joshua\documents\visual studio 2017\Projects\ConsoleApp1\ConsoleApp1\bi
 c:\users\joshua\documents\visual studio 2017\Projects\ConsoleApp1\ConsoleApp1\obj\Debug\ConsoleApp1.csprojResolveAssemblyReference.cache
 c:\users\joshua\documents\visual studio 2017\Projects\ConsoleApp1\ConsoleApp1\obj\Debug\ConsoleApp1.exe
 c:\users\joshua\documents\visual studio 2017\Projects\ConsoleApp1\ConsoleApp1\obj\Debug\ConsoleApp1.pdb
+C:\Users\Joshua\Documents\GitHub\ETLtool\ConsoleApp1\ConsoleApp1\bin\Debug\ConsoleApp1.exe
+C:\Users\Joshua\Documents\GitHub\ETLtool\ConsoleApp1\ConsoleApp1\bin\Debug\ConsoleApp1.pdb
+C:\Users\Joshua\Documents\GitHub\ETLtool\ConsoleApp1\ConsoleApp1\obj\Debug\ConsoleApp1.csprojResolveAssemblyReference.cache
+C:\Users\Joshua\Documents\GitHub\ETLtool\ConsoleApp1\ConsoleApp1\obj\Debug\ConsoleApp1.exe
+C:\Users\Joshua\Documents\GitHub\ETLtool\ConsoleApp1\ConsoleApp1\obj\Debug\ConsoleApp1.pdb
