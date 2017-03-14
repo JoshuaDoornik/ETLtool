@@ -67,28 +67,37 @@ namespace ConsoleApp1
         }
         public void writeWithTupleWrapper(TupleWrapper tuple) {
 
-            string columns = "";
-            string data = "";
-            foreach (var item in tuple.getColumns())
+            object[] rawdata = tuple.getData();
+            object[] rawcolumns = tuple.getColumns();
+            string columns = rawcolumns[0].ToString();
+            string data = rawdata[0].ToString();
+
+            for (int i = 1; i < rawcolumns.Length; i++)
             {
-                columns += " , " + item.ToString();
+                columns += " , " + rawcolumns[i].ToString();
             }
 
-            foreach (var row in tuple.getData())
+
+
+            for (int i = 1; i < rawdata.Length; i++)
             {
 
             
-                if (row.GetType() == typeof(DateTime))
+                if (rawdata[i] == null)
                 {
-                    data += " , " + "'" + convertDate(row.ToString()) + "'";
+                    data += " , " + "'" + ""+ "'";
+                }
+                else if (rawdata[i].GetType() == typeof(DateTime))
+                {
+                    data += " , " + "'" + convertDate(rawdata[i].ToString()) + "'";
                 }
                 else
                 {
-                    data += " , " + "'" + row.ToString() + "'";
+                    data += " , " + "'" + rawdata[i].ToString() + "'";
                 }
             }
 
-            string query = "INSERT INTO (" + columns + ")" + " Klant " + " VALUES(" + data + ")";
+            string query = "INSERT INTO Klant (" + columns + ")" + "  " + " VALUES(" + data + ")";
 
 
             using (SqlConnection Connection = new SqlConnection(ConnectionString))
