@@ -72,6 +72,7 @@ namespace ConsoleApp1
             string columns = rawcolumns[0].ToString();
             string data = rawdata[0].ToString();
 
+
             for (int i = 1; i < rawcolumns.Length; i++)
             {
                 columns += " , " + rawcolumns[i].ToString();
@@ -82,19 +83,20 @@ namespace ConsoleApp1
             for (int i = 1; i < rawdata.Length; i++)
             {
 
-            
+
                 if (rawdata[i] == null)
                 {
-                    data += " , " + "'" + ""+ "'";
+                    data += " , " + "'" + "null" + "'";
                 }
                 else if (rawdata[i].GetType() == typeof(DateTime))
                 {
                     data += " , " + "'" + convertDate(rawdata[i].ToString()) + "'";
                 }
-                else
-                {
-                    data += " , " + "'" + rawdata[i].ToString() + "'";
+                else {
+                    data += " , " + "'" + rawdata[i].ToString().Replace("\'", "") + "'";
                 }
+    
+
             }
 
             string query = "INSERT INTO Klant (" + columns + ")" + "  " + " VALUES(" + data + ")";
@@ -106,9 +108,6 @@ namespace ConsoleApp1
 
                 using (SqlCommand myCommand = new SqlCommand(query, Connection))
                 {
-
-
-
                     int affectedrows = myCommand.ExecuteNonQuery();
 
                     if (affectedrows == 0)
@@ -140,15 +139,31 @@ namespace ConsoleApp1
         private string convertDate(string date) {
             date = date.Remove(date.Length - 10, 9);
             var folders = date.Split(new char[] { '/' });
+            int year = 0;
+            int month = 0;
+            int day = 1;
+            foreach (var item in folders)
+            {
+                int fuckry = Int32.Parse(item);
+                if (fuckry > 1000)
+                {
+                    year = fuckry;
+                }
+                else if (fuckry <= 12)
+                {
+                    month = fuckry;
+                }
+                else 
+                {
+                    day = fuckry;
+                }
+            }
 
-            string temp = folders[0];
 
-            folders[0] = folders[2];
-            folders[2] = temp;
-
-
-            return folders[0] +'/'+ folders[1] + '/' + folders[2];
+            return "" + year +'/'+ month + '/' + day;
         }
+
+       
     }
 }
 

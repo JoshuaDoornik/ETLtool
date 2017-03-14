@@ -8,7 +8,7 @@ namespace ConsoleApp1
 {
     class TupleWrapper
     {
-        Dictionary<string, object>tuple = new Dictionary<string, object>();
+       public Dictionary<string, object>tuple = new Dictionary<string, object>();
        
 
 
@@ -39,6 +39,11 @@ namespace ConsoleApp1
         public object[] getData()
         {
             return tuple.Values.ToArray();
+        }
+
+        public void deletThis() {
+
+            tuple.Clear();
         }
     }
 
