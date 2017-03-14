@@ -159,8 +159,18 @@ namespace ConsoleApp1
                 }
             }
 
+            string temp = "" + year + '/' + month + '/' + day;
+            DateTime tempdate;
+            if (DateTime.TryParse(temp, out tempdate))
+            {
+                return "" + year + '/' + month + '/' + day;
 
-            return "" + year +'/'+ month + '/' + day;
+            }
+            else {
+
+                return @"1111/11/11";
+            }
+                
         }
 
        
