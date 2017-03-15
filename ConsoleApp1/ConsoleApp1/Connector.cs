@@ -11,9 +11,9 @@ namespace ConsoleApp1
     class Connector
     {
        
-        AcessController AcController;
+        AccessController AcController;
         mssqlController MsController;
-        public Connector(AcessController AcController, mssqlController MsController) {
+        public Connector(AccessController AcController, mssqlController MsController) {
             this.MsController = MsController;
             this.AcController = AcController;
 

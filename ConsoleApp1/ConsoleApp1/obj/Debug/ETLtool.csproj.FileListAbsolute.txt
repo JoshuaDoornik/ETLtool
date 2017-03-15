@@ -3,3 +3,5 @@ C:\Users\Joshua\Documents\GitHub\ETLtool\ConsoleApp1\ConsoleApp1\bin\Debug\Conso
 C:\Users\Joshua\Documents\GitHub\ETLtool\ConsoleApp1\ConsoleApp1\obj\Debug\ETLtool.csprojResolveAssemblyReference.cache
 C:\Users\Joshua\Documents\GitHub\ETLtool\ConsoleApp1\ConsoleApp1\obj\Debug\ConsoleApp1.exe
 C:\Users\Joshua\Documents\GitHub\ETLtool\ConsoleApp1\ConsoleApp1\obj\Debug\ConsoleApp1.pdb
+C:\Users\Matthias\Documents\Git\ETLtool\ConsoleApp1\ConsoleApp1\obj\Debug\ConsoleApp1.exe
+C:\Users\Matthias\Documents\Git\ETLtool\ConsoleApp1\ConsoleApp1\obj\Debug\ConsoleApp1.pdb
