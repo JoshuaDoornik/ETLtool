@@ -139,31 +139,17 @@ namespace ConsoleApp1
         private string convertDate(string date) {
             date = date.Remove(date.Length - 10, 9);
             var folders = date.Split(new char[] { '/' });
-            int year = 0;
-            int month = 0;
-            int day = 1;
-            foreach (var item in folders)
-            {
-                int fuckry = Int32.Parse(item);
-                if (fuckry > 1000)
-                {
-                    year = fuckry;
-                }
-                else if (fuckry <= 12)
-                {
-                    month = fuckry;
-                }
-                else 
-                {
-                    day = fuckry;
-                }
-            }
+            
+             string temp = folders[0];
+            
+            folders[0] = folders[2];
+            folders[2] = temp;
 
-            string temp = "" + year + '/' + month + '/' + day;
+            temp = folders[0] + '/' + folders[1] + '/' + folders[2];
             DateTime tempdate;
             if (DateTime.TryParse(temp, out tempdate))
             {
-                return "" + year + '/' + month + '/' + day;
+               return temp;
 
             }
             else {

@@ -19,7 +19,7 @@ namespace ConsoleApp1
 
         }
 
-        public void writeFromACtoMssql(string query, string table, string columns)
+        public void writeFromACtoMssql(string query, string table)
         {
             var toWrite = AcController.readFromAc(query);
             var orgtable = toWrite.Tables[0].ToString();
@@ -30,7 +30,7 @@ namespace ConsoleApp1
             Console.ReadLine();
         }
 
-        public void writeFromACtoMssqldiffcolumns(string selectquery, string table, string columns) {
+        public void writeFromACtoMssqldiffcolumns(string selectquery, string table) {
 
             var toWriteFormat = MsController.readfrommssql(selectquery);
             var toWrite = AcController.readFromAc(selectquery);

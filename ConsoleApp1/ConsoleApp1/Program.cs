@@ -30,9 +30,9 @@ namespace ConsoleApp1
 
 
             Connector connector = new Connector(AcController, msController);
-            // connector.writeFromACtoMssql(query, "klant",  "klant_id , voorletter");
+        
 
-            connector.writeFromACtoMssqldiffcolumns(query, "klant", "asdasd");
+            connector.writeFromACtoMssqldiffcolumns(query, "klant");
 
             AcController.conn.Close();
           
