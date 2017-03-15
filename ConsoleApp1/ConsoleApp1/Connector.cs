@@ -51,14 +51,9 @@ namespace ConsoleApp1
 
                 foreach (var col in format)
                 {
-
-                    if (col.Equals("klant_id"))
-                    {
-                        tup.addTuple(col, item["klant_id"]);
-                    }
                     tup.addTuple(col, item[tableFormats[col]]);
                 }
-                MsController.writeWithTupleWrapper(tup);
+                MsController.writeWithTupleWrapper(tup, table);
                 tup.deletThis();
 
             }

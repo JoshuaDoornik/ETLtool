@@ -26,7 +26,7 @@ namespace ConsoleApp1
             AcessController AcController = new AcessController("Provider=Microsoft.Jet.OLEDB.4.0;" +
                 @"Data source=C:\Users\Joshua\Desktop\Database Project\NTU.mdb");
 
-            string query = "SELECT * FROM klant";
+            string query = "SELECT * FROM Aankoop";
 
 
             Connector connector = new Connector(AcController, msController);
@@ -34,11 +34,13 @@ namespace ConsoleApp1
             //met het format geven we aan waar welke tabel thuis hoort. dus klant_id in de ene DB hoort in klantId in de ander
             Dictionary<String, string> format = new Dictionary<string, string>();
 
+            format.Add("aankoop_id", "aankoop_nr");
             format.Add("prod_id", "prod_nr");
-            format.Add("abon_id", "abmnt");
-            format.Add("leverdatum", "lever_dt");
+            format.Add("order_id", "order_nr");
+            format.Add("aantal", "aantal");
+            format.Add("bedrag","bedrag");
 
-            connector.writeFromACtoMssqldiffcolumns(query, "klant", format);
+            connector.writeFromACtoMssqldiffcolumns(query, "premielevering", format);
 
             AcController.conn.Close();
           

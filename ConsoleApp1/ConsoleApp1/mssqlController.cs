@@ -65,7 +65,7 @@ namespace ConsoleApp1
             }
 
         }
-        public void writeWithTupleWrapper(TupleWrapper tuple) {
+        public void writeWithTupleWrapper(TupleWrapper tuple, string tablename) {
 
             object[] rawdata = tuple.getData();
             object[] rawcolumns = tuple.getColumns();
@@ -99,7 +99,7 @@ namespace ConsoleApp1
 
             }
 
-            string query = "INSERT INTO Klant (" + columns + ")" + "  " + " VALUES(" + data + ")";
+            string query = "INSERT INTO "+tablename+" (" + columns + ")" + "  " + " VALUES(" + data + ")";
 
 
             using (SqlConnection Connection = new SqlConnection(ConnectionString))
