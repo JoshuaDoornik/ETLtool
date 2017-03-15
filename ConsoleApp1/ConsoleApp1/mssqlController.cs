@@ -23,9 +23,8 @@ namespace ConsoleApp1
 
             foreach (var item in row.Table.Columns)
             {
-                columns += " , " +  item.ToString();
+                columns += " , " + item.ToString();
             }
-
 
             for (int i = 1; i < row.ItemArray.Length; i++)
             {
@@ -33,16 +32,14 @@ namespace ConsoleApp1
                 {
                     data += " , " + "'" + convertDate(row.ItemArray[i].ToString()) + "'";
                 }
-                else { 
-            
-                data  += " , "+"'" + row.ItemArray[i] + "'";
+                else
+                {
+
+                    data += " , " + "'" + row.ItemArray[i] + "'";
                 }
             }
-           
 
-            string query = "INSERT INTO ("+ columns+")"+ tableTowriteTo + " VALUES(" + data +")";
-          
-
+            string query = "INSERT INTO (" + columns + ")" + tableTowriteTo + " VALUES(" + data + ")"
 
             using (SqlConnection Connection = new SqlConnection(ConnectionString))
             {
@@ -50,9 +47,6 @@ namespace ConsoleApp1
 
                 using (SqlCommand myCommand = new SqlCommand(query, Connection))
                 {
-
-
-
                     int affectedrows = myCommand.ExecuteNonQuery();
 
                     if (affectedrows == 0)
@@ -60,30 +54,23 @@ namespace ConsoleApp1
                         Console.WriteLine("error");
                     }
                 }
-
-
             }
-
         }
-        public void writeWithTupleWrapper(TupleWrapper tuple, string tablename) {
 
+        public void writeWithTupleWrapper(TupleWrapper tuple, string tablename)
+        {
             object[] rawdata = tuple.getData();
             object[] rawcolumns = tuple.getColumns();
             string columns = rawcolumns[0].ToString();
             string data = rawdata[0].ToString();
-
 
             for (int i = 1; i < rawcolumns.Length; i++)
             {
                 columns += " , " + rawcolumns[i].ToString();
             }
 
-
-
             for (int i = 1; i < rawdata.Length; i++)
-            {
-
-
+            { 
                 if (rawdata[i] == null)
                 {
                     data += " , " + "'" + "null" + "'";
@@ -92,15 +79,13 @@ namespace ConsoleApp1
                 {
                     data += " , " + "'" + convertDate(rawdata[i].ToString()) + "'";
                 }
-                else {
+                else
+                {
                     data += " , " + "'" + rawdata[i].ToString().Replace("\'", "") + "'";
                 }
-    
-
             }
 
-            string query = "INSERT INTO "+tablename+" (" + columns + ")" + "  " + " VALUES(" + data + ")";
-
+            string query = "INSERT INTO " + tablename + " (" + columns + ")" + "  " + " VALUES(" + data + ")";
 
             using (SqlConnection Connection = new SqlConnection(ConnectionString))
             {
@@ -116,9 +101,7 @@ namespace ConsoleApp1
                     }
                 }
             }
-
-
-            }
+        }
 
         public DataSet readfrommssql(string query)
         {
@@ -136,12 +119,14 @@ namespace ConsoleApp1
 
             }
         }
-        private string convertDate(string date) {
+
+        private string convertDate(string date)
+        {
             date = date.Remove(date.Length - 10, 9);
             var folders = date.Split(new char[] { '/' });
-            
-             string temp = folders[0];
-            
+
+            string temp = folders[0];
+
             folders[0] = folders[2];
             folders[2] = temp;
 
@@ -149,21 +134,17 @@ namespace ConsoleApp1
             DateTime tempdate;
             if (DateTime.TryParse(temp, out tempdate))
             {
-               return temp;
-
+                return temp;
             }
-            else {
-
+            else
+            {
                 return @"1111/11/11";
             }
-                
         }
-
-       
     }
 }
 
 
-        
-    
+
+
 
