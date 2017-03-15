@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{7055B7C2-0141-4380-BF62-287E25FD1633}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETLtool", "ConsoleApp1\ETLtool.csproj", "{7055B7C2-0141-4380-BF62-287E25FD1633}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
