@@ -30,9 +30,15 @@ namespace ConsoleApp1
 
 
             Connector connector = new Connector(AcController, msController);
-        
 
-            connector.writeFromACtoMssqldiffcolumns(query, "klant");
+            //met het format geven we aan waar welke tabel thuis hoort. dus klant_id in de ene DB hoort in klantId in de ander
+            Dictionary<String, string> format = new Dictionary<string, string>();
+
+            format.Add("prod_id", "prod_nr");
+            format.Add("abon_id", "abmnt");
+            format.Add("leverdatum", "lever_dt");
+
+            connector.writeFromACtoMssqldiffcolumns(query, "klant", format);
 
             AcController.conn.Close();
           
