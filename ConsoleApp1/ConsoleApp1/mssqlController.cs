@@ -70,7 +70,7 @@ namespace ConsoleApp1
             object[] rawdata = tuple.getData();
             object[] rawcolumns = tuple.getColumns();
             string columns = rawcolumns[0].ToString();
-            string data = rawdata[0].ToString();
+            string data = "'" + rawdata[0].ToString() + "'";
 
 
             for (int i = 1; i < rawcolumns.Length; i++)
@@ -99,7 +99,7 @@ namespace ConsoleApp1
 
             }
 
-            string query = "INSERT INTO "+tablename+" (" + columns + ")" + "  " + " VALUES(" + data + ")";
+            string query = "INSERT INTO " + tablename +" (" + columns + ")" + "  " + " VALUES(" + data + ")";
 
 
             using (SqlConnection Connection = new SqlConnection(ConnectionString))
@@ -120,13 +120,13 @@ namespace ConsoleApp1
 
             }
 
-        public DataSet readfrommssql(string query)
+        public DataSet readfrommssql(string ReadFromMsSql)
         {
-            string tablename = query.Split("FROM".ToCharArray())[4];
+        
             using (SqlConnection Connection = new SqlConnection(ConnectionString))
             {
                 Connection.Open();
-                SqlCommand cmd = new SqlCommand(query, Connection);
+                SqlCommand cmd = new SqlCommand(ReadFromMsSql, Connection);
                 DataSet dataset = new DataSet();
 
                 DataTable table = new DataTable();

@@ -30,10 +30,11 @@ namespace ConsoleApp1
             Console.ReadLine();
         }
 
-        public void writeFromACtoMssqldiffcolumns(string selectquery, string table, Dictionary<String, String>tableFormats) {
+        public void writeFromACtoMssqldiffcolumns(string selectFromAcess, string SelectFromMsSql,string towriteTable, Dictionary<String, String>tableFormats) {
 
-            var toWriteFormat = MsController.readfrommssql(selectquery);
-            var toWrite = AcController.readFromAc(selectquery);
+            string readtablename = selectFromAcess.Split("FROM".ToCharArray())[4];
+            var toWriteFormat = MsController.readfrommssql(SelectFromMsSql);
+            var toWrite = AcController.readFromAc(selectFromAcess);
             List<TupleWrapper> tuples = new List<TupleWrapper>();
             TupleWrapper tup = new TupleWrapper();
             List<string> format = new List<string>();
@@ -43,7 +44,7 @@ namespace ConsoleApp1
             {
                 
                 format.Add(item.ToString());
-                Console.WriteLine(item.ToString());
+               
             }
 
             foreach (DataRow item in toWrite.Tables[toWrite.Tables[0].ToString()].Rows)
@@ -51,13 +52,18 @@ namespace ConsoleApp1
 
                 foreach (var col in format)
                 {
+  
                     tup.addTuple(col, item[tableFormats[col]]);
+                    
                 }
-                MsController.writeWithTupleWrapper(tup, table);
+
+                MsController.writeWithTupleWrapper(tup, towriteTable);
                 tup.deletThis();
 
             }
-       
+
+            Console.WriteLine("Klaar!");
+            Console.ReadKey();
         }
     }
 }

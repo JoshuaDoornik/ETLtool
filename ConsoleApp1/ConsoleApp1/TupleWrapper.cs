@@ -45,6 +45,10 @@ namespace ConsoleApp1
 
             tuple.Clear();
         }
+        public bool IsEmpty() {
+
+            return  (tuple.Count == 0);
+        }
     }
 
 }
