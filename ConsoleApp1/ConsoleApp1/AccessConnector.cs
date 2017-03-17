@@ -8,11 +8,11 @@ using System.Data;
 
 namespace ConsoleApp1
 {
-    class AcessController
+    class AccessController
     {
 
         public OleDbConnection conn;
-        public AcessController(string connectionString)
+        public AccessController(string connectionString)
         {
             conn = new OleDbConnection(connectionString);
             try
@@ -21,23 +21,17 @@ namespace ConsoleApp1
             }
             catch (Exception e)
             {
-
                 Console.WriteLine(e); ;
             }
-
-
-           
         }
 
-        public DataSet readFromAc(string query) {
-
+        public DataSet readFromAc(string query)
+        {
             string tablename = query.Split("FROM".ToCharArray())[4];
             DataSet myDataSet = new DataSet();
 
             OleDbCommand selectFromAccess = new OleDbCommand(query, conn);
             OleDbDataAdapter myDataAdapter = new OleDbDataAdapter(selectFromAccess);
-
-
 
             myDataAdapter.Fill(myDataSet, tablename);
             DataTableCollection dta = myDataSet.Tables;
@@ -57,8 +51,6 @@ namespace ConsoleApp1
                 columns[i] = item.ToString();
                 i++;
             }
-            
-
 
             return myDataSet;
         }
