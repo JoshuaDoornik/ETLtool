@@ -5,18 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.OleDb;
 using System.Data;
+using System.Collections;
 
 namespace ConsoleApp1
 {
     class Connector
     {
        
-        AccessController AcController;
+        AcessController AcController;
         mssqlController MsController;
-        public Connector(AccessController AcController, mssqlController MsController) {
+
+        private HashSet<int> KeyRing= new HashSet<int>();
+        private IEnumerator iterator;
+        public Connector(AcessController AcController, mssqlController MsController) {
             this.MsController = MsController;
             this.AcController = AcController;
-
+             iterator = KeyRing.GetEnumerator();
         }
 
         public void writeFromACtoMssql(string query, string table)
@@ -65,5 +69,20 @@ namespace ConsoleApp1
             Console.WriteLine("Klaar!");
             Console.ReadKey();
         }
+     public void generateKeyRing(int count,int up, int down){
+            Random rand = new Random();
+            for (int i = 0; i == count; i++)
+            {
+                KeyRing.Add(rand.Next(down,up));
+            }
+
+        }
+
+        public int getKey() {
+            iterator.MoveNext();
+            Console.WriteLine(iterator.Current);
+            return (int) iterator.Current;
+        }
     }
+
 }

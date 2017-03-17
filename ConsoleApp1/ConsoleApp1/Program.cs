@@ -42,8 +42,13 @@ namespace ConsoleApp1
 
 
 
-            connector.writeFromACtoMssqldiffcolumns(selectfromAccess, selectfromMSql, "functie", format);
+            // connector.writeFromACtoMssqldiffcolumns(selectfromAccess, selectfromMSql, "functie", format);
+            connector.generateKeyRing(1000, 10, 20);
 
+            for (int i = 0; i < 100; i++)
+            {
+                connector.getKey();
+            }
             AcController.conn.Close();
           
         }

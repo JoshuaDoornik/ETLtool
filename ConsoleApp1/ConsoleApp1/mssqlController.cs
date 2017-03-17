@@ -158,6 +158,28 @@ namespace ConsoleApp1
             }
                 
         }
+        public int Count(string tablename) {
+            string query = "select count(*) as count from " +tablename;
+            int count = 0;
+
+            using (SqlConnection Connection = new SqlConnection(ConnectionString))
+            {
+                Connection.Open();
+                SqlCommand cmd = new SqlCommand(query, Connection);
+ 
+                using (SqlDataReader oReader = cmd.ExecuteReader())
+                {
+                    while (oReader.Read())
+                    {
+                        count = (int) oReader["count"];
+                      
+                    }
+
+                }
+                return count;
+
+            }
+        }
 
        
     }
