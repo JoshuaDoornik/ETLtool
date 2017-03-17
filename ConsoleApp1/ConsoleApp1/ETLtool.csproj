@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AcessConnector.cs" />
+    <Compile Include="AcessController.cs" />
     <Compile Include="Connector.cs" />
     <Compile Include="mssqlController.cs" />
     <Compile Include="Program.cs" />
