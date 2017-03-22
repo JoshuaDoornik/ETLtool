@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using System.Data.OleDb;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace ConsoleApp1
 {
@@ -14,8 +15,10 @@ namespace ConsoleApp1
     {
 
         public OleDbConnection conn;
+        private string ConnectionString;
         public AcessController(string connectionString)
         {
+            this.ConnectionString = connectionString;
             conn = new OleDbConnection(connectionString);
             try
             {
@@ -64,6 +67,30 @@ namespace ConsoleApp1
 
 
             return myDataSet;
+        }
+
+        public int Count(string tablename)
+        {
+            string query = "select count(*) as count from " + tablename;
+            int count = 0;
+
+            using (SqlConnection Connection = new SqlConnection(ConnectionString))
+            {
+                Connection.Open();
+                SqlCommand cmd = new SqlCommand(query, Connection);
+
+                using (SqlDataReader oReader = cmd.ExecuteReader())
+                {
+                    while (oReader.Read())
+                    {
+                        count = (int)oReader["count"];
+
+                    }
+
+                }
+                return count;
+
+            }
         }
     }
 }

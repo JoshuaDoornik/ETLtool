@@ -20,7 +20,7 @@ namespace ConsoleApp1
         public Connector(AcessController AcController, mssqlController MsController) {
             this.MsController = MsController;
             this.AcController = AcController;
-             iterator = KeyRing.GetEnumerator();
+            
         }
 
         public void writeFromACtoMssql(string query, string table)
@@ -56,11 +56,16 @@ namespace ConsoleApp1
 
                 foreach (var col in format)
                 {
-  
+                    if (col.Equals("functie_id"))
+                    {
+                        tup.addTuple("functie_id", getKey());
+                    }
+                    else
+                    { 
                     tup.addTuple(col, item[tableFormats[col]]);
-                    
+                    }
                 }
-
+                
                 MsController.writeWithTupleWrapper(tup, towriteTable);
                 tup.deletThis();
 
@@ -69,16 +74,20 @@ namespace ConsoleApp1
             Console.WriteLine("Klaar!");
             Console.ReadKey();
         }
-     public void generateKeyRing(int count,int up, int down){
+     public void generateKeyRing(int count, int up){
             Random rand = new Random();
-            for (int i = 0; i == count; i++)
+           
+            while (KeyRing.Count != count)
             {
-                KeyRing.Add(rand.Next(down,up));
-            }
+                KeyRing.Add(rand.Next(0, up));
 
+            }
+        
+            iterator = KeyRing.GetEnumerator();
         }
 
         public int getKey() {
+
             iterator.MoveNext();
             Console.WriteLine(iterator.Current);
             return (int) iterator.Current;
