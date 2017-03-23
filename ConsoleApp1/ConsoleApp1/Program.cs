@@ -26,8 +26,8 @@ namespace ConsoleApp1
             AcessController AcController = new AcessController("Provider=Microsoft.Jet.OLEDB.4.0;" +
                 @"Data source=C:\Users\Joshua\Desktop\Database Project\NTU.mdb");
 
-            string selectfromAccess = "SELECT distinct(functie) as functienaam FROM Medewerkers";
-            string selectfromMSql = "select * from functie";
+            string selectfromAccess = "SELECT medewerker_code, voornaam, achternaam, functie,email, datum_in_dienst FROM Medewerkers";
+            string selectfromMSql = "select medewerker_code, voornaam, achternaam, functie,email, datum_in_dienst from Medewerker";
 
             Connector connector = new Connector(AcController, msController);
 
@@ -37,12 +37,17 @@ namespace ConsoleApp1
           
 
              
-               format.Add("naam", "functienaam");
-               format.Add("omschrijving", "functienaam");
-            connector.generateKeyRing(1000, 20000);
+               format.Add("medewerker_code", "medewerker_code");
+               format.Add("voornaam", "voornaam");
+               format.Add("achternaam","achternaam");
+            format.Add("functie", "functie");
+            format.Add("email", "email");
+            format.Add("datum_in_dienst", "datum_in_dienst");
+          
+           // connector.generateKeyRing(1000, 20000);
 
 
-            connector.writeFromACtoMssqldiffcolumns(selectfromAccess, selectfromMSql, "functie", format);
+            connector.writeFromACtoMssqldiffcolumns(selectfromAccess, selectfromMSql, "medewerker", format);
             
 
        

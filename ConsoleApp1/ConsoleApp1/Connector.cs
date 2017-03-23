@@ -56,12 +56,19 @@ namespace ConsoleApp1
 
                 foreach (var col in format)
                 {
-                    if (col.Equals("functie_id"))
+                    if (col.Equals("functie"))
                     {
-                        tup.addTuple("functie_id", getKey());
+
+                        tup.addTuple(col, MsController.readSingleResult("SELECT functie_id FROM Functie where naam =" + "'" + item[tableFormats[col]] + "'", "functie_id"));
+
+                    }
+                    else if (col.Equals("afdeling_id"))
+                    {
+                        tup.addTuple(col, null);
                     }
                     else
-                    { 
+                    {
+                     
                     tup.addTuple(col, item[tableFormats[col]]);
                     }
                 }

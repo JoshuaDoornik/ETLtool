@@ -120,13 +120,13 @@ namespace ConsoleApp1
 
             }
 
-        public DataSet readfrommssql(string ReadFromMsSql)
+        public DataSet readfrommssql(string query)
         {
         
             using (SqlConnection Connection = new SqlConnection(ConnectionString))
             {
                 Connection.Open();
-                SqlCommand cmd = new SqlCommand(ReadFromMsSql, Connection);
+                SqlCommand cmd = new SqlCommand(query, Connection);
                 DataSet dataset = new DataSet();
 
                 DataTable table = new DataTable();
@@ -134,6 +134,35 @@ namespace ConsoleApp1
                 dataset.Tables.Add(table);
                 return dataset;
 
+            }
+        }
+
+        public string readSingleResult(string sqlquery, string columname) {
+
+            using (SqlConnection Connection = new SqlConnection(ConnectionString))
+            {
+                Connection.Open();
+                SqlCommand cmd = new SqlCommand(sqlquery, Connection);
+                DataSet dataset = new DataSet();
+                string result = null;
+                DataTable table = new DataTable();
+                table.Load(cmd.ExecuteReader());
+                dataset.Tables.Add(table);
+
+                foreach (DataTable item in dataset.Tables)
+                {
+
+                    Console.WriteLine(item.ToString());
+
+                }
+
+                foreach (DataRow item in dataset.Tables[dataset.Tables[0].ToString()].Rows)
+                {
+                    Console.WriteLine(item.ToString());
+                    result = item[columname].ToString();
+                }
+
+                return result;
             }
         }
         private string convertDate(string date) {
