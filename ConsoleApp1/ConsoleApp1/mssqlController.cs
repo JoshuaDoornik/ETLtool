@@ -36,7 +36,7 @@ namespace ConsoleApp1
                     catch (SqlException e)
                     {
                         Console.WriteLine(e.Message);
-                        using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\Joshua\Desktop\errorlog\LocatieErrorLog.txt", true))
+                        using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\David\Desktop\errorlog\LocatieErrorLog.txt", true))
                         {
                             file.WriteLine(e.Message + "\n");
                             file.WriteLine(query + "\n");
@@ -69,7 +69,7 @@ namespace ConsoleApp1
                 {
                     data += " , " + "" + "null" + "";
                 }
-                else if (rawdata[i].GetType() == typeof(DateTime))
+               else if (rawdata[i].GetType() == typeof(DateTime))
                 {
                     data += " , " + "'" + convertDate(rawdata[i].ToString()) + "'";
                 }
@@ -174,7 +174,7 @@ namespace ConsoleApp1
         }
         private string convertDate(string date) {
             date = date.Remove(date.Length - 10, 9);
-            var folders = date.Split(new char[] { '/' });
+            var folders = date.Split(new char[] { '-' ,'/'});
             
              string temp = folders[0];
             

@@ -37,7 +37,8 @@ namespace ConsoleApp1
         public DataSet Read(string query)
         {
 
-            string tablename = query.Split("FROM".ToCharArray())[4];
+            //string tablename = query.Split("FROM".ToCharArray())[4];
+            string tablename = "Klant";
             //  string tablename = "training";
             DataSet myDataSet = new DataSet();
 
@@ -117,7 +118,7 @@ namespace ConsoleApp1
                     catch (SqlException e)
                     {
                         Console.WriteLine(e.Message);
-                        using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\Joshua\Desktop\errorlog\ErrorLog.txt", true))
+                        using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\David\Desktop\errorlog\ErrorLog.txt", true))
                         {
                             file.WriteLine(e.Message + "\n");
                             file.WriteLine(query + "\n");
