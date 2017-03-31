@@ -1,0 +1,5 @@
+C:\Users\Joshua\Documents\GitHub\ETLtool\ConsoleApp1\ConsoleApp1\bin\Release\ConsoleApp1.exe
+C:\Users\Joshua\Documents\GitHub\ETLtool\ConsoleApp1\ConsoleApp1\bin\Release\ConsoleApp1.pdb
+C:\Users\Joshua\Documents\GitHub\ETLtool\ConsoleApp1\ConsoleApp1\obj\Release\ConsoleApp1.exe
+C:\Users\Joshua\Documents\GitHub\ETLtool\ConsoleApp1\ConsoleApp1\obj\Release\ConsoleApp1.pdb
+C:\Users\Joshua\Documents\GitHub\ETLtool\ConsoleApp1\ConsoleApp1\obj\Release\ETLtool.csprojResolveAssemblyReference.cache

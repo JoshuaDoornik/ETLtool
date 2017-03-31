@@ -11,7 +11,7 @@ using System.Data.SqlClient;
 
 namespace ConsoleApp1
 {
-    class AcessController
+    class AcessController : IDBController
     {
 
         public OleDbConnection conn;
@@ -34,15 +34,15 @@ namespace ConsoleApp1
 
         }
 
-        public DataSet readFromAc(string query)
+        public DataSet Read(string query)
         {
 
             string tablename = query.Split("FROM".ToCharArray())[4];
+            //  string tablename = "training";
             DataSet myDataSet = new DataSet();
 
             OleDbCommand selectFromAccess = new OleDbCommand(query, conn);
             OleDbDataAdapter myDataAdapter = new OleDbDataAdapter(selectFromAccess);
-
 
 
             myDataAdapter.Fill(myDataSet, tablename);
@@ -69,27 +69,63 @@ namespace ConsoleApp1
             return myDataSet;
         }
 
-        public int Count(string tablename)
-        {
-            string query = "select count(*) as count from " + tablename;
-            int count = 0;
+        public void Write(TupleWrapper tuple, string tablename) {
 
-            using (SqlConnection Connection = new SqlConnection(ConnectionString))
+        
+}
+
+        /*     public int Count(string tablename)
+             {
+                 string query = "select count(*) as count from " + tablename;
+                 int count = 0;
+
+                 using (SqlConnection Connection = new SqlConnection(ConnectionString))
+                 {
+                     Connection.Open();
+                     SqlCommand cmd = new SqlCommand(query, Connection);
+
+                     using (SqlDataReader oReader = cmd.ExecuteReader())
+                     {
+                         while (oReader.Read())
+                         {
+                             count = (int)oReader["count"];
+                         }
+
+                     }
+                     return count;
+                    
+    }  */
+
+
+    
+
+    public void ExecuteNonQuery(string query)
+        {
+            using (OleDbConnection Connection = new OleDbConnection(ConnectionString))
             {
                 Connection.Open();
-                SqlCommand cmd = new SqlCommand(query, Connection);
 
-                using (SqlDataReader oReader = cmd.ExecuteReader())
+                using (OleDbCommand myCommand = new OleDbCommand(query, Connection))
                 {
-                    while (oReader.Read())
+
+                    int affectedrows = 0;
+
+                    try
                     {
-                        count = (int)oReader["count"];
+                        affectedrows = myCommand.ExecuteNonQuery();
+                    }
+                    catch (SqlException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\Joshua\Desktop\errorlog\ErrorLog.txt", true))
+                        {
+                            file.WriteLine(e.Message + "\n");
+                            file.WriteLine(query + "\n");
+                        }
+
 
                     }
-
                 }
-                return count;
-
             }
         }
     }

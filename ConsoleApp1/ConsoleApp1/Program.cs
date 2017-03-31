@@ -14,40 +14,37 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
 
-            mssqlController msController = new mssqlController("user id=DESKTOP-7LQ5LCT\\Joshua;" +
+            MssqlController msController = new MssqlController("user id=DESKTOP-7LQ5LCT\\Joshua;" +
                                  "password=;server=(localdb)\\MSSQLLocalDB;" +
                                  "Trusted_Connection=yes;" +
                                  "database=NTU;" +
                                  "connection timeout=30");
 
-            Console.WriteLine("succes connecting to mssql!");
-
-
-            AcessController AcController = new AcessController("Provider=Microsoft.Jet.OLEDB.4.0;" +
+            AcessController AcController = new AcessController("Provider = Microsoft.Jet.OLEDB.4.0; " +
                 @"Data source=C:\Users\Joshua\Desktop\Database Project\NTU.mdb");
 
-            string selectfromAccess = "SELECT medewerker_code, voornaam, achternaam, functie,email, datum_in_dienst FROM Medewerkers";
-            string selectfromMSql = "select medewerker_code, voornaam, achternaam, functie,email, datum_in_dienst from Medewerker";
+            string selectfromAccess = "SELECT * FROM Event WHERE prijs_abo = 0.00";
+            string selectfromMSql = "SELECT * FROM Event";
 
             Connector connector = new Connector(AcController, msController);
 
             //met het format geven we aan waar welke tabel thuis hoort. dus klant_id in de ene DB hoort in klantId in de ander
             Dictionary<string, string> format = new Dictionary<string, string>();
 
-          
-
-             
-               format.Add("medewerker_code", "medewerker_code");
-               format.Add("voornaam", "voornaam");
-               format.Add("achternaam","achternaam");
-            format.Add("functie", "functie");
-            format.Add("email", "email");
-            format.Add("datum_in_dienst", "datum_in_dienst");
-          
-           // connector.generateKeyRing(1000, 20000);
 
 
-            connector.writeFromACtoMssqldiffcolumns(selectfromAccess, selectfromMSql, "medewerker", format);
+
+            format.Add("event_id", "prod_nr");
+            format.Add("prijs_abo", "prijs_abo");
+            format.Add("begin_dt", "begin_dt");
+            format.Add("eind_dt", "eind_dt");
+            format.Add("locatie_id", "locatie");
+
+
+
+
+           connector.updateColumn("SELECT * FROM Activiteit Inner join Event On event.activ_id = activiteit.activ_id", "activiteit","eind_dt","activiteit.activ_id");
+         //  connector.writeFromAccessToMSSQL(selectfromAccess, selectfromMSql, "Event", format);
             
 
        

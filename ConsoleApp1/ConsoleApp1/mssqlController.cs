@@ -8,42 +8,18 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    class mssqlController
+    class MssqlController : IDBController
     {
         private string ConnectionString;
-        public mssqlController(string connectionString)
+        private string batch;
+        private int counter = 0;
+        public MssqlController(string connectionString)
         {
             this.ConnectionString = connectionString;
         }
 
-        public void WriteToMssql(DataRow row, string tableTowriteTo)
+        public void ExecuteNonQuery(string query)
         {
-            string data = row.ItemArray[0].ToString();
-            string columns = "";
-
-            foreach (var item in row.Table.Columns)
-            {
-                columns += " , " +  item.ToString();
-            }
-
-
-            for (int i = 1; i < row.ItemArray.Length; i++)
-            {
-                if (row.ItemArray[i].GetType() == typeof(DateTime))
-                {
-                    data += " , " + "'" + convertDate(row.ItemArray[i].ToString()) + "'";
-                }
-                else { 
-            
-                data  += " , "+"'" + row.ItemArray[i] + "'";
-                }
-            }
-           
-
-            string query = "INSERT INTO ("+ columns+")"+ tableTowriteTo + " VALUES(" + data +")";
-          
-
-
             using (SqlConnection Connection = new SqlConnection(ConnectionString))
             {
                 Connection.Open();
@@ -51,13 +27,22 @@ namespace ConsoleApp1
                 using (SqlCommand myCommand = new SqlCommand(query, Connection))
                 {
 
+                    int affectedrows = 0;
 
-
-                    int affectedrows = myCommand.ExecuteNonQuery();
-
-                    if (affectedrows == 0)
+                    try
                     {
-                        Console.WriteLine("error");
+                        affectedrows = myCommand.ExecuteNonQuery();
+                    }
+                    catch (SqlException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"C:\Users\Joshua\Desktop\errorlog\LocatieErrorLog.txt", true))
+                        {
+                            file.WriteLine(e.Message + "\n");
+                            file.WriteLine(query + "\n");
+                        }
+
+                        
                     }
                 }
 
@@ -65,7 +50,7 @@ namespace ConsoleApp1
             }
 
         }
-        public void writeWithTupleWrapper(TupleWrapper tuple, string tablename) {
+        public void Write(TupleWrapper tuple, string tablename) {
 
             object[] rawdata = tuple.getData();
             object[] rawcolumns = tuple.getColumns();
@@ -78,15 +63,11 @@ namespace ConsoleApp1
                 columns += " , " + rawcolumns[i].ToString();
             }
 
-
-
             for (int i = 1; i < rawdata.Length; i++)
             {
-
-
-                if (rawdata[i] == null)
+                if (rawdata[i].GetType() == typeof(DBNull))
                 {
-                    data += " , " + "'" + "null" + "'";
+                    data += " , " + "" + "null" + "";
                 }
                 else if (rawdata[i].GetType() == typeof(DateTime))
                 {
@@ -102,33 +83,59 @@ namespace ConsoleApp1
             string query = "INSERT INTO " + tablename +" (" + columns + ")" + "  " + " VALUES(" + data + ")";
 
 
-            using (SqlConnection Connection = new SqlConnection(ConnectionString))
+            ExecuteNonQuery(query);
+
+
+            }
+
+        public void batchInsert(TupleWrapper tuple, string tablename, int batchSize = 10000) {
+
+            object[] rawdata = tuple.getData();
+            object[] rawcolumns = tuple.getColumns();
+            string columns = rawcolumns[0].ToString();
+            string data = "'" + rawdata[0].ToString() + "'";
+
+
+            for (int i = 1; i < rawcolumns.Length; i++)
             {
-                Connection.Open();
+                columns += " , " + rawcolumns[i].ToString();
+            }
 
-                using (SqlCommand myCommand = new SqlCommand(query, Connection))
+            for (int i = 1; i < rawdata.Length; i++)
+            {
+                if (rawdata[i] == null)
                 {
-                    int affectedrows = myCommand.ExecuteNonQuery();
-
-                    if (affectedrows == 0)
-                    {
-                        Console.WriteLine("error");
-                    }
+                    data += " , " + "'" + "null" + "'";
+                }
+                else if (rawdata[i].GetType() == typeof(DateTime))
+                {
+                    data += " , " + "'" + convertDate(rawdata[i].ToString()) + "'";
+                }
+                else
+                {
+                    data += " , " + "'" + rawdata[i].ToString().Replace("\'", "") + "'";
                 }
             }
 
-
+            batch += "INSERT INTO " + tablename + " (" + columns + ")" + "  " + " VALUES(" + data + ") \n";
+            counter++;
+            if (counter == batchSize) {
+                counter = 0;
+                ExecuteNonQuery(batch);
             }
 
-        public DataSet readfrommssql(string query)
+        }
+
+        public DataSet Read(string query)
         {
         
             using (SqlConnection Connection = new SqlConnection(ConnectionString))
             {
+
                 Connection.Open();
+
                 SqlCommand cmd = new SqlCommand(query, Connection);
                 DataSet dataset = new DataSet();
-
                 DataTable table = new DataTable();
                 table.Load(cmd.ExecuteReader());
                 dataset.Tables.Add(table);
@@ -210,7 +217,7 @@ namespace ConsoleApp1
             }
         }
 
-       
+
     }
 }
 

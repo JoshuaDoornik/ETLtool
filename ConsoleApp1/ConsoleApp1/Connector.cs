@@ -11,35 +11,24 @@ namespace ConsoleApp1
 {
     class Connector
     {
-       
-        AcessController AcController;
-        mssqlController MsController;
+
+        IDBController Source;
+        IDBController Target;
 
         private HashSet<int> KeyRing= new HashSet<int>();
         private IEnumerator iterator;
-        public Connector(AcessController AcController, mssqlController MsController) {
-            this.MsController = MsController;
-            this.AcController = AcController;
+        public Connector(IDBController source, IDBController target) {
+            this.Target = target;
+            this.Source = source;
             
         }
+    
 
-        public void writeFromACtoMssql(string query, string table)
-        {
-            var toWrite = AcController.readFromAc(query);
-            var orgtable = toWrite.Tables[0].ToString();
-            foreach (DataRow item in toWrite.Tables[orgtable].Rows)
-            {
-                MsController.WriteToMssql(item, table);
-            }
-            Console.ReadLine();
-        }
-
-        public void writeFromACtoMssqldiffcolumns(string selectFromAcess, string SelectFromMsSql,string towriteTable, Dictionary<String, String>tableFormats) {
+        public void writeFromAccessToMSSQL(string selectFromAcess, string SelectFromMsSql,string towriteTable, Dictionary<String, String>tableFormats) {
 
             string readtablename = selectFromAcess.Split("FROM".ToCharArray())[4];
-            var toWriteFormat = MsController.readfrommssql(SelectFromMsSql);
-            var toWrite = AcController.readFromAc(selectFromAcess);
-            List<TupleWrapper> tuples = new List<TupleWrapper>();
+            var toWriteFormat = Target.Read(SelectFromMsSql);
+            var toWrite = Source.Read(selectFromAcess);
             TupleWrapper tup = new TupleWrapper();
             List<string> format = new List<string>();
 
@@ -50,36 +39,74 @@ namespace ConsoleApp1
                 format.Add(item.ToString());
                
             }
+            var datatables = toWrite.Tables[toWrite.Tables[0].ToString()].Rows;
 
-            foreach (DataRow item in toWrite.Tables[toWrite.Tables[0].ToString()].Rows)
+            foreach (DataRow item in datatables)
             {
 
                 foreach (var col in format)
                 {
-                    if (col.Equals("functie"))
-                    {
 
-                        tup.addTuple(col, MsController.readSingleResult("SELECT functie_id FROM Functie where naam =" + "'" + item[tableFormats[col]] + "'", "functie_id"));
 
-                    }
-                    else if (col.Equals("afdeling_id"))
-                    {
-                        tup.addTuple(col, null);
-                    }
-                    else
-                    {
-                     
-                    tup.addTuple(col, item[tableFormats[col]]);
-                    }
+ 
+
+                        tup.addTuple(col, item[tableFormats[col]]);
+                    
                 }
                 
-                MsController.writeWithTupleWrapper(tup, towriteTable);
+                Target.Write(tup, towriteTable);
                 tup.deletThis();
 
             }
 
             Console.WriteLine("Klaar!");
             Console.ReadKey();
+        }
+
+    
+
+        public void updateColumn(string selectAC, string updateTable, string updateColumn, string KeyColumn) {
+           DataSet set = Source.Read(selectAC);
+
+            foreach (DataRow item in set.Tables[set.Tables[0].ToString()].Rows)
+            {
+               
+                Target.ExecuteNonQuery("UPDATE "+ updateTable + " SET "+updateColumn+" = " + "'" + convertDate(item[updateColumn].ToString()) + "'" 
+                + " WHERE "+ KeyColumn + " = " + item[KeyColumn].ToString());
+            }
+
+            }
+
+        private string convertDate(string date)
+        {
+            date = date.Remove(date.Length - 10, 9);
+            var folders = date.Split(new char[] { '/' });
+
+            string temp = folders[0];
+
+            folders[0] = folders[2];
+            folders[2] = temp;
+
+            temp = folders[0] + '/' + folders[1] + '/' + folders[2];
+            DateTime tempdate;
+            if (DateTime.TryParse(temp, out tempdate))
+            {
+                return temp;
+
+            }
+            else
+            {
+
+                return @"1111/11/11";
+            }
+        }
+
+            private string removeAccent(string accentStr) {
+            byte[] tempBytes;
+            tempBytes = System.Text.Encoding.GetEncoding("ISO-8859-8").GetBytes(accentStr);
+            string asciiStr = System.Text.Encoding.UTF8.GetString(tempBytes);
+            
+            return asciiStr;
         }
      public void generateKeyRing(int count, int up){
             Random rand = new Random();

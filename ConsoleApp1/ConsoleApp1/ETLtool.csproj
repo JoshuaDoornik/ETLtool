@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="AcessController.cs" />
     <Compile Include="Connector.cs" />
+    <Compile Include="IDBController.cs" />
     <Compile Include="mssqlController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
